@@ -12,6 +12,8 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+node_modules/
+bower_components/
 
 # Ignore Byebug command history file.
 .byebug_history

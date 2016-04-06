@@ -6,7 +6,11 @@ Overal structure is a Ruby on Rails backend with PostgreSQL storage, and an Angu
 
 ## Installation
 
-Run 'bundle install' to install dependencies for API.
+Instructions assume installation and use of rvm (Ruby Version Manager) and npm (node package manager).
+
+* Run 'bundle install' to install dependencies for API.
+* Run 'npm install' to install node dependencies for use in compiling front-end
+* Run 'bower install' to install font-end dependencies
 
 ## Test Suites
 

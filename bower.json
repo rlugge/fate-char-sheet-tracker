@@ -1,0 +1,24 @@
+{
+  "name": "charsheet-app-client",
+  "version": "0.0.0",
+  "authors": [
+    "Ronald J. Lugge III <ronlugge@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "private": true,
+  "dependencies": {
+    "angular": "~1.4.7",
+    "angular-route": "~1.4.7",
+    "jquery": "~2.1.4",
+    "angular-resource": "~1.4.7",
+    "angular-cookies": "~1.4.7",
+    "Materialize": "materialize#^0.97.6"
+  }
+}
