@@ -3,6 +3,9 @@ source 'https://rubygems.org'
 #specify ruby version
 ruby '2.3.0'
 
+# Permissions handling
+gem 'pundit'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '>= 5.0.0.beta3', '< 5.1'
 # Use postgresql as the database for Active Record
@@ -16,6 +19,9 @@ gem 'jbuilder', '~> 2.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+# For generating user tokens
+gem 'jwt'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
@@ -23,13 +29,17 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'rack-cors'
 
 group :development, :test do
+  # Environment Variable Loading
+  gem 'dotenv-rails'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
 end
 
 group :test do
   #testing
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~>3.5.0.beta1'
+
+  gem 'rails-controller-testing'
 
   #Improved matchers for rspec
   gem 'shoulda-matchers'
