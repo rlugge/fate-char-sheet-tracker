@@ -37,6 +37,10 @@ RSpec.describe API::V1::SessionsController, type: :controller do
         subject
         expect(assigns(:jwt)).to be_present
       end
+      it 'should assign user' do
+        subject
+        expect(assigns(:user)).to eq(user)
+      end
     end
     context 'error' do
       it 'should fail on invalid email' do

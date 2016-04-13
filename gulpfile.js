@@ -7,7 +7,8 @@ var gulp = require('gulp'),
   sass = require('gulp-sass'),
   concat = require('gulp-concat'),
   bowerDirectory = './bower_components/',
-  notBowerDirectory = '!./bower_components/';
+  notBowerDirectory = '!./bower_components/',
+  livereload = require('gulp-livereload');
 
 gulp.task('jshint', function(){
   return gulp.src(['*.js', 'client-app/**/*.js'], ['jshint'])
@@ -23,69 +24,35 @@ gulp.task('clean', function(){
 });
 
 // copy bower JS dependencies
-gulp.task('compile-bower', ['clean'], function(){
+gulp.task('compile-bower', function(){
   return gulp.src([
       bowerDirectory + 'jquery/dist/jquery.min.js',
       bowerDirectory + 'angular/angular.min.js',
       bowerDirectory + 'angular-cookies/angular-cookies.min.js',
       bowerDirectory + 'angular-resource/angular-resource.min.js',
       bowerDirectory + 'angular-route/angular-route.min.js',
-
-
-      bowerDirectory + 'Materialize/js/initial.js',
-      bowerDirectory + 'Materialize/js/jquery.easing.1.3.js',
-      bowerDirectory + 'Materialize/js/animation.js',
-      bowerDirectory + 'Materialize/js/velocity.min.js',
-      bowerDirectory + 'Materialize/js/hammer.min.js',
-      bowerDirectory + 'Materialize/js/jquery.hammer.js',
-      bowerDirectory + 'Materialize/js/global.js',
-      bowerDirectory + 'Materialize/js/collapsible.js',
-      bowerDirectory + 'Materialize/js/dropdown.js',
-      bowerDirectory + 'Materialize/js/leanModal.js',
-      bowerDirectory + 'Materialize/js/materialbox.js',
-      bowerDirectory + 'Materialize/js/parallax.js',
-      bowerDirectory + 'Materialize/js/tabs.js',
-      bowerDirectory + 'Materialize/js/tooltip.js',
-      bowerDirectory + 'Materialize/js/waves.js',
-      bowerDirectory + 'Materialize/js/toasts.js',
-      bowerDirectory + 'Materialize/js/sideNav.js',
-      bowerDirectory + 'Materialize/js/scrollspy.js',
-      bowerDirectory + 'Materialize/js/forms.js',
-      bowerDirectory + 'Materialize/js/slider.js',
-      bowerDirectory + 'Materialize/js/cards.js',
-      bowerDirectory + 'Materialize/js/chips.js',
-      bowerDirectory + 'Materialize/js/pushpin.js',
-      bowerDirectory + 'Materialize/js/buttons.js',
-      bowerDirectory + 'Materialize/js/transitions.js',
-      bowerDirectory + 'Materialize/js/scrollFire.js',
-      bowerDirectory + 'Materialize/js/date_picker/picker.js',
-      bowerDirectory + 'Materialize/js/date_picker/picker.date.js',
-      bowerDirectory + 'Materialize/js/character_counter.js',
-      bowerDirectory + 'Materialize/js/carousel.js',
-
-
-
-
+      bowerDirectory + 'angular-bootstrap/ui-bootstrap-tpls.min.js',
+      bowerDirectory + 'bootstrap-sass/assets/javascripts/bootstrap.min.js',
       ])
     .pipe(concat('deps.js'))
-    .pipe(gulp.dest('./public/js'));
+    .pipe(gulp.dest('./public/js')).pipe(livereload());
 });
 
-// copy materialize fonts
-gulp.task('copy-fonts',['clean'], function(){
-  return gulp.src([bowerDirectory + 'Materialize/fonts/**/*.*'])
-    .pipe(gulp.dest('./public/fonts'));
+// copy Bootstrap fonts
+gulp.task('copy-fonts', function(){
+  return gulp.src([bowerDirectory + 'bootstrap-sass/assets/fonts/**/*.*'])
+    .pipe(gulp.dest('./public/fonts')).pipe(livereload());
 });
 
 //compile javascript
-gulp.task('compile-js',['clean'], function(){
+gulp.task('compile-js', function(){
   return gulp.src(['./client-app/js/**/*.js'])
     .pipe(concat('app.js'))
-    .pipe(gulp.dest('./public/js'));
+    .pipe(gulp.dest('./public/js')).pipe(livereload());
 });
 
 //compile minified javascript
-gulp.task('compile-minified-js',['clean'], function(){
+gulp.task('compile-minified-js', function(){
   return gulp.src(['./client-app/js/**/*.js'])
     .pipe(concat('app.js'))
     .pipe(uglify())
@@ -93,35 +60,48 @@ gulp.task('compile-minified-js',['clean'], function(){
 });
 
 // Execute SASS parsing
-gulp.task('sass', ['clean'], function(){
+gulp.task('sass', function(){
   return gulp.src('./client-app/sass/**/*.scss')
     .pipe(sass({precision: 8}).on('error',notify.onError({ sound: "Funk"})))
     .pipe(cssNano())
-    .pipe(gulp.dest('./public/css'));
+    .pipe(gulp.dest('./public/css')).pipe(livereload());
 });
 
 // Execute SASS parsing, minified
-gulp.task('sass-minified', ['clean'], function(){
+gulp.task('sass-minified', function(){
   return gulp.src('./client-app/sass/**/*.scss')
     .pipe(sass({precision: 8}).on('error',notify.onError({ sound: "Funk"})))
     .pipe(cssNano())
-    .pipe(gulp.dest('./public/css'));
+    .pipe(gulp.dest('./public/css')).pipe(livereload());
 });
 
 // Copy app public folder
-gulp.task('copy', ['clean'], function(){
+gulp.task('copy', function(){
   return gulp.src(['./client-app/**/*.*', '!./client-app/sass/**/*.*','!./client-app/js/**/*.js'])
-    .pipe(gulp.dest('./public/'));
+    .pipe(gulp.dest('./public/')).pipe(livereload());
 });
 
-gulp.task('build', ['jshint','copy', 'copy-fonts', 'compile-bower', 'compile-js', 'sass']);
+gulp.task('build', ['copy', 'copy-fonts', 'compile-bower', 'compile-js', 'sass'], function(){
+  livereload();
+});
+
 gulp.task('build-deployed-version', ['copy', 'copy-fonts', 'compile-bower', 'compile-minified-js', 'sass-minified']);
 
 gulp.task('watch-for-jshint', function(){
   return gulp.watch(['*.js', 'client-app/**/*.js'], ['jshint']);
 });
-gulp.task('watch-for-compile', function(){
-  return gulp.watch('client-app/**/*.*', ['build']);
+gulp.task('watch-for-compile-js', function(){
+  livereload.listen({start:true});
+  return gulp.watch('client-app/**/*.js', ['compile-js']);
+});
+gulp.task('watch-for-compile-sass', function(){
+  livereload.listen({start:true});
+  return gulp.watch('client-app/**/*.scss', ['sass']);
+});
+gulp.task('watch-for-compile-copy', function(){
+  livereload.listen({start:true});
+  return gulp.watch(['client-app/**/*.*', '!client-app/**/*.js', '!client-app/**/*.scss'], ['copy']);
 });
  
-gulp.task('default', ['watch-for-jshint','watch-for-compile','jshint']);
+gulp.task('default', ['watch-for-jshint','watch-for-compile-js','watch-for-compile-sass',
+  'watch-for-compile-copy','jshint']);

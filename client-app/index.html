@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="CharsheetApp">
 <head>
-  <!--Import Google Icon Font-->
-  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <meta charset="utf-8">
   <!--Import materialize.css-->
   <link type="text/css" rel="stylesheet" href="css/main.css"  media="screen,projection"/>
 
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Charsheet Application</title>
 </head>
 
-<body>
-  <p>Starting Point</p>  
-  <!--Import jQuery before materialize.js-->
+<body  ng-controller='WindowController'>
+  <div>
+    <div ng-include="'./partials/main/navbar.html'"></div>
+  </div>
+
+  <div class='container'>
+  </div>
+
   <script type="text/javascript" src="./js/deps.js"></script>
+  <script type="text/javascript" src="./js/app.js"></script>
 </body>
 </html>

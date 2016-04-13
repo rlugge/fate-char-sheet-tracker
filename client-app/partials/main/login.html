@@ -1,0 +1,32 @@
+<ul class='nav navbar-nav navbar-right' ng-controller='SessionsController'>
+  <li class='dropdown' ng-show='!Profile.user'>
+    <a class='dropdown-toggle' data-toggle='dropdown'>Login<span class='caret'></span></a>
+    <ul id='login-dp' class='dropdown-menu'>
+      <li>
+        <div class='row'>
+          <div class='col-md-12'>
+            <form class='' ng-submit='Profile.login()' ng-show="!Profile.loading">
+              <div class='form-group'>
+                <input id='login-email' ng-model='Profile.email' placeholder='email' required class='form-control'>
+              </div>
+              <div class='form-group'>
+                <input type='password' id='login-password' ng-model='Profile.password' placeholder='password' required class='form-control'>
+              </div>
+              <button ng-click="" class='btn btn-primary' type='submit'>Login</button>
+              <button ng-click="" class='btn btn-primary'>Register</button>
+            </form>
+            <div ng-show='Profile.loading'>
+              <p>Logging you in, please stand by...</p>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li ng-show='Profile.user'>
+    <a >{{ Profile.user.display_name }}</a>
+  </li>
+  <li ng-show='Profile.user'>
+    <a ng-click='Profile.logout()'>Logout</a>
+  </li>
+</ul>

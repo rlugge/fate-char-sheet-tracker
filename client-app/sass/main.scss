@@ -1,1 +1,12 @@
-@import '../../bower_components/Materialize/sass/materialize.scss';
+@import '../../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+
+//Nav bar fix
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.dropdown-menu .row{
+  margin:10px;
+}
+
+#login-dp .row{
+  min-width:200px;
+}

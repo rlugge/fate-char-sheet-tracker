@@ -9,9 +9,9 @@ class API::V1::SessionsController < API::V1::APIController
   end
 
   def create
-    user = User.find_by(email:params[:email])
-    if user&.authenticate(params[:password])
-      @jwt = SessionToken.encode(user)
+    @user = User.find_by(email:params[:email])
+    if @user&.authenticate(params[:password])
+      @jwt = SessionToken.encode(@user)
     else
       render status: :unauthorized
     end
