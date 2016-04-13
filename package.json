@@ -17,6 +17,7 @@
   },
   "devDependencies": {
     "gulp-jshint": "^1.11.2",
-    "gulp-livereload": "^3.8.1"
+    "gulp-livereload": "^3.8.1",
+    "gulp-watch": "^4.3.5"
   }
 }

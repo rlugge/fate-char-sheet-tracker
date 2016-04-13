@@ -5,6 +5,7 @@ var gulp = require('gulp'),
   uglify = require('gulp-uglify'),
   cssNano = require('gulp-cssnano'),
   ngAnnotate = require('gulp-ng-annotate'),
+  watch = require('gulp-watch'),
   sass = require('gulp-sass'),
   concat = require('gulp-concat'),
   bowerDirectory = './bower_components/',
@@ -72,19 +73,21 @@ gulp.task('build', ['copy', 'copy-fonts', 'compile-bower', 'compile-js', 'sass']
 });
 
 gulp.task('watch-for-jshint', function(){
-  return gulp.watch(['*.js', 'client-app/**/*.js'], ['jshint']);
+  return watch(['*.js', 'client-app/**/*.js'], ['jshint']);
 });
 gulp.task('watch-for-compile-js', function(){
   livereload.listen({start:true});
-  return gulp.watch('client-app/**/*.js', ['compile-js']);
+  return watch('client-app/**/*.js', ['compile-js']);
 });
 gulp.task('watch-for-compile-sass', function(){
   livereload.listen({start:true});
-  return gulp.watch('client-app/**/*.scss', ['sass']);
+  return watch('client-app/**/*.scss', ['sass']);
 });
 gulp.task('watch-for-compile-copy', function(){
   livereload.listen({start:true});
-  return gulp.watch(['client-app/**/*.*', '!client-app/**/*.js', '!client-app/**/*.scss'], ['copy']);
+  // return watch(['client-app/**/*.*', '!client-app/**/*.js', '!client-app/**/*.scss'], ['copy']);
+  return watch(['client-app/**/*.*', '!client-app/**/*.js', '!client-app/**/*.scss'])
+    .pipe(gulp.dest('./public/')).pipe(livereload());
 });
  
 gulp.task('default', ['watch-for-jshint','watch-for-compile-js','watch-for-compile-sass',
