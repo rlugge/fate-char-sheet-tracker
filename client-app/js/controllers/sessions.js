@@ -2,9 +2,10 @@
 
 'use strict';
 
-
-  angular.module('CharsheetApp')
-  .controller('SessionsController',['$scope','Profile', function($scope, Profile){
-    $scope.Profile = Profile;
-  }]);
+  function SessionsCtrl(Profile){
+    "ngInject";
+    console.log(Profile);
+    this.Profile = Profile;
+  }
+  angular.module('CharsheetApp').controller('SessionsCtrl',SessionsCtrl);
 }());

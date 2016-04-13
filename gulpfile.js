@@ -4,6 +4,7 @@ var gulp = require('gulp'),
   notify = require('gulp-notify'),
   uglify = require('gulp-uglify'),
   cssNano = require('gulp-cssnano'),
+  ngAnnotate = require('gulp-ng-annotate'),
   sass = require('gulp-sass'),
   concat = require('gulp-concat'),
   bowerDirectory = './bower_components/',
@@ -48,6 +49,7 @@ gulp.task('copy-fonts', function(){
 gulp.task('compile-js', function(){
   return gulp.src(['./client-app/js/**/*.js'])
     .pipe(concat('app.js'))
+    .pipe(ngAnnotate())
     .pipe(gulp.dest('./public/js')).pipe(livereload());
 });
 
