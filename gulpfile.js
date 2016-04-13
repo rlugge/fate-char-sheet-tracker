@@ -51,24 +51,8 @@ gulp.task('compile-js', function(){
     .pipe(gulp.dest('./public/js')).pipe(livereload());
 });
 
-//compile minified javascript
-gulp.task('compile-minified-js', function(){
-  return gulp.src(['./client-app/js/**/*.js'])
-    .pipe(concat('app.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('./public/js'));
-});
-
 // Execute SASS parsing
 gulp.task('sass', function(){
-  return gulp.src('./client-app/sass/**/*.scss')
-    .pipe(sass({precision: 8}).on('error',notify.onError({ sound: "Funk"})))
-    .pipe(cssNano())
-    .pipe(gulp.dest('./public/css')).pipe(livereload());
-});
-
-// Execute SASS parsing, minified
-gulp.task('sass-minified', function(){
   return gulp.src('./client-app/sass/**/*.scss')
     .pipe(sass({precision: 8}).on('error',notify.onError({ sound: "Funk"})))
     .pipe(cssNano())
@@ -84,8 +68,6 @@ gulp.task('copy', function(){
 gulp.task('build', ['copy', 'copy-fonts', 'compile-bower', 'compile-js', 'sass'], function(){
   livereload();
 });
-
-gulp.task('build-deployed-version', ['copy', 'copy-fonts', 'compile-bower', 'compile-minified-js', 'sass-minified']);
 
 gulp.task('watch-for-jshint', function(){
   return gulp.watch(['*.js', 'client-app/**/*.js'], ['jshint']);
