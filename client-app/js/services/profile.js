@@ -12,7 +12,6 @@
         userToken: token,
         profile:$resource(apiPath+'profile'),
         login: function(){
-          console.log("Starting login...");
           profileService.loading = true;
           $http.post(apiPath+'sessions', {email:profileService.email, password:profileService.password})
           .then(function successCallback(response){
